@@ -51,6 +51,8 @@ mv checkinfo.sh /usr/local/bin/
 chmod +x /usr/local/bin/checkinfo.sh
 ```
 
+Generate your API key by going to https://nodecheck.io and click My Profile --> Preferences.  Part way down is "API access token".  Click the button below to generate an API key.  Each click will generate a new key, so if you think your key has been compromised, it's possible to generate a new one, and copy the key and paste into the monitoring script.
+
 Edit and provide the following information for the script to run - edit the appropriate values within the script:
 
 ```
