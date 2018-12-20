@@ -65,7 +65,7 @@ if [ -z "$RUNMODE" ]
 then
 	# Update user's MN info no NodeCheck
 	sleep $[ ( $RANDOM % 600 ) ]
-        RESULTS=`curl -s -d @$OUTPUT -H "Content-Type: application/json" https://test.nodecheck.io/api/sendinfo`
+        RESULTS=`curl -s -d @$OUTPUT -H "Content-Type: application/json" https://nodecheck.io/api/sendinfo`
 	# Check if successful or not and display error
 	if [[ $RESULTS == *"\"success\":true"* ]]
 	then
