@@ -97,7 +97,7 @@ Now verify that no errors appear when sending the info to us:
 sudo -H -u user checkinfo.sh
 ```
 
-if you get any errors, please check and correct the APIKEY, TXID or Payee.
+and wait for it to return to the console prompt.  If you get any errors, please check and correct the APIKEY, TXID or Payee.
 
 Once all this has been done, we can now configure crontab to run the script hourly:
 
