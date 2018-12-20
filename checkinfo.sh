@@ -99,7 +99,6 @@ else
 	                exit 1
 	        fi		
 		echo ""
-		exit 0
 	else
 		# Wrong parameter provided, display help information
 		echo "Incorrect parameter provided to script."
