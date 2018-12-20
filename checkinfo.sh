@@ -13,12 +13,6 @@
 ######################################################################
 RUNMODE=$1
 
-##################
-# Output to file #
-##################
-# File to send output to before sending to NodeCheck
-OUTPUT=/tmp/checkinfo.json
-
 ######################################################################
 # The following four variables need to be set:                       #
 #                                                                    #
@@ -26,11 +20,14 @@ OUTPUT=/tmp/checkinfo.json
 # 2. Add your API KEY from NodeCheck website.                        #
 # 3. Add TXID of your masternode (from MN config file).              #
 # 4. Add payee/pubkey of your masternode (from MN config file).      #
+# 5. If running more than one coin on your node, change output to    #
+# eg: /tmp/checkinfo-coin1.json                                      #
 ######################################################################
 CLITOOL=/path/to/coin-cli|coindaemond
 APIKEY=<your-api-key-here>
 TXID=<your-mn-txid-here>
 PAYEE=<your-mn-payee-here>
+OUTPUT=/tmp/checkinfo.json
 
 ############################
 # Info to check and update #
@@ -64,7 +61,7 @@ echo "{\"access-token\":\"$APIKEY\", \"payee\":\"$PAYEE\", \"txid\":\"$TXID\", \
 if [ -z "$RUNMODE" ]
 then
 	# Update user's MN info no NodeCheck
-	sleep $[ ( $RANDOM % 600 ) ]
+	sleep $[ ( $RANDOM % 60 ) ]
         RESULTS=`curl -s -d @$OUTPUT -H "Content-Type: application/json" https://nodecheck.io/api/sendinfo`
 	# Check if successful or not and display error
 	if [[ $RESULTS == *"\"success\":true"* ]]
