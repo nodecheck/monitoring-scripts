@@ -82,6 +82,14 @@ sudo -H -u user checkinfo.sh --test
 
 replace ```user``` with the username you run the daemon as.  If the results show your current MN/wallet version, blockheight and blockhash, this means the script is working fine.
 
+Now verify that no errors appear when sending the info to us:
+
+```
+sudo -H -u user checkinfo.sh
+```
+
+if you get any errors, please check and correct the APIKEY, TXID or Payee.
+
 Once all this has been done, we can now configure crontab to run the script hourly:
 
 ```
