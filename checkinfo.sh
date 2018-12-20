@@ -61,7 +61,7 @@ echo "{\"access-token\":\"$APIKEY\", \"payee\":\"$PAYEE\", \"txid\":\"$TXID\", \
 if [ -z "$RUNMODE" ]
 then
 	# Update user's MN info no NodeCheck
-	sleep $[ ( $RANDOM % 60 ) ]
+	sleep $[ ( $RANDOM % 600 ) ]
         RESULTS=`curl -s -d @$OUTPUT -H "Content-Type: application/json" https://nodecheck.io/api/sendinfo`
 	# Check if successful or not and display error
 	if [[ $RESULTS == *"\"success\":true"* ]]
@@ -85,6 +85,19 @@ else
 		echo "MN/Wallet Version=$VERSION"
 		echo "Blockheight=$BLOCKS"
 		echo "Blockhash=$BLOCKHASH"
+        	RESULTS=`curl -s -d @$OUTPUT -H "Content-Type: application/json" https://nodecheck.io/api/sendinfo`
+	        # Check if successful or not and display error
+	        if [[ $RESULTS == *"\"success\":true"* ]]
+	        then
+	                # All working OK
+			echo "API Connection OK."
+	                exit 0
+	        else
+	                # There seems to be a problem!
+			echo "Problem with API connection."
+	                echo "Error: $RESULTS"
+	                exit 1
+	        fi		
 		echo ""
 		exit 0
 	else
