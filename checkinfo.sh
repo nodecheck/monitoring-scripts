@@ -41,7 +41,7 @@ then
 	VERSION=`echo $VER | sed 's/\///g'`
 else
 	# Coin uses coind daemon command
-	VER=`$CLITOOL getinfo | grep version | egrep -iv "protocol|wallet" | cut -f2 -d "="`
+        VER=`$CLITOOL getinfo | grep version | egrep -iv "protocol|wallet" | cut -f2 -d ":" | sed 's/,//' | sed 's/"//g'`
         # Remove / character from version info
         VERSION=`echo $VER | sed 's/\///g'`
 fi
