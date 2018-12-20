@@ -41,7 +41,7 @@ apt install curl
 Download our script:
 
 ```
-curl -O https://github.com/nodecheck/monitoring-scripts/
+curl -O https://raw.githubusercontent.com/nodecheck/monitoring-scripts/master/checkinfo.sh
 ```
 
 Set the permissions so that it can be executed:
