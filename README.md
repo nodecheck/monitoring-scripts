@@ -60,11 +60,20 @@ CLITOOL=
 APIKEY=
 TXID=
 PAYEE=
+OUTPUT=/tmp/checkinfo.json
 ```
 
 The CLITOOL needs to be the path to the CLI RPC program on your node.  This could be, for example ```coinname-cli```, and therefore will need to contain the full path to wherever you have this located on your VPS.  Some coins don't have a separate CLI program, so in this instance you will substitute the command with the ```coindaemond``` name.
 
 The APIKEY field, is your API key to connect to our site - you can find this under your profile preferences on our website.  The TXID and PAYEE are the two pieces of information to identify your node.  The payee is either payee/pubkey/collateral address that you used to send the coins for starting your node.  The TXID address is the long number related to the transaction you made when starting your node (usually with -0 or -1 at the end of it).  The TXID needs to be provided WITHOUT the -0 or -1 ending.
+
+If you are running multiple coins on one VPS, please change ```OUTPUT=``` line so that it says something like:
+
+```
+OUTPUT=/tmp/checkinfo-coin1.json
+```
+
+and make sure that it uses a different file for each coin.  If you only have one MN running on your node, then you don't need to worry about changing this.
 
 After the script has been edited and saved, we then need to run the script with the ```--test``` parameter to ensure that we have the correct location to CLI, correct API, correct TXID and correct PAYEE.  Also note, the script has to been run as the SAME user that the main daemon on your system runs as.  So, for example, if you run coinnamed as ```root```, then we need to run this script as root.  If you created a user on your system, for example: ```coinuser```, then we need to run the script as ```coinuser```.  This can be done by checking what user the daemon runs as:
 
