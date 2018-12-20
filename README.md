@@ -89,7 +89,19 @@ Once we then have the user that the script is being ran as:
 sudo -H -u user checkinfo.sh --test
 ```
 
-replace ```user``` with the username you run the daemon as.  If the results show your current MN/wallet version, blockheight and blockhash.  It will also check and test the connection via our API.  It will either say the connection is OK, or if there was an error.  If there was an error, check APIKEY, TXID and/or Payee based on the error output.
+replace ```user``` with the username you run the daemon as.  If the results show your current MN/wallet version, blockheight and blockhash.  It will also check and test the connection via our API.  It will either say the connection is OK, or if there was an error.  If you get the following error:
+
+```
+Error: {"name":"Unauthorized","message":"Your request was made with invalid credentials.","code":0,"status":401}
+```
+
+this means you have entered the wrong APIKEY.  Please check/verify.  If you get the following error:
+
+```
+Error: {"success":false,"message":"Node not found"}
+```
+
+this means you have an incorrect TXID or Payee.  Please check/verify.
 
 Once all this has been done, we can now configure crontab to run the script hourly:
 
