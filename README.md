@@ -44,7 +44,7 @@ Download our script:
 curl -O https://raw.githubusercontent.com/nodecheck/monitoring-scripts/master/checkinfo.sh
 ```
 
-As root user, move the file to /usr/local/bin and set the permissions so that it can be executed (this is so that the sript can be found and ran without providing the full path to the script):
+As root user, move the file to /usr/local/bin and set the permissions so that it can be executed (this is so that the script can be found and ran without providing the full path to the script):
 
 ```
 mv checkinfo.sh /usr/local/bin/
