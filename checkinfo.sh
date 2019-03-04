@@ -35,15 +35,15 @@ OUTPUT=/tmp/checkinfo.json
 # Get version, blocks, and blockhash
 if [[ $CLITOOL == *"-cli" ]]
 then
-	# Coin uses coin-cli command
-	VER=`$CLITOOL getnetworkinfo | grep subversion | cut -f4 -d "\""`
-	# Remove / character from version info
-	VERSION=`echo $VER | sed 's/\///g'`
+  # Coin uses coin-cli command
+  VER=`$CLITOOL getnetworkinfo | grep subversion | cut -f4 -d "\""`
+  # Remove / character from version info
+  VERSION=`echo $VER | sed 's/\///g'`
 else
-	# Coin uses coind daemon command
-        VER=`$CLITOOL getinfo | grep version | egrep -iv "protocol|wallet" | cut -f2 -d ":" | sed 's/,//' | sed 's/"//g'`
-        # Remove / character from version info
-        VERSION=`echo $VER | sed 's/\///g'`
+  # Coin uses coind daemon command
+  VER=`$CLITOOL getinfo | grep version | egrep -iv "protocol|wallet" | cut -f2 -d ":" | sed 's/,//' | sed 's/"//g'`
+  # Remove / character from version info
+  VERSION=`echo $VER | sed 's/\///g'`
 fi
 
 BLOCKS=`$CLITOOL getblockcount`
@@ -60,51 +60,50 @@ echo "{\"access-token\":\"$APIKEY\", \"payee\":\"$PAYEE\", \"txid\":\"$TXID\", \
 # If no parameter passed, then run normally
 if [ -z "$RUNMODE" ]
 then
-	# Update user's MN info no NodeCheck
-	sleep $[ ( $RANDOM % 600 ) ]
-        RESULTS=`curl -s -d @$OUTPUT -H "Content-Type: application/json" https://nodecheck.io/api/sendinfo`
-	# Check if successful or not and display error
-	if [[ $RESULTS == *"\"success\":true"* ]]
-	then
-		# All working OK
-		exit 0
-	else
-		# There seems to be a problem!
-		echo "Error: $RESULTS"
-		exit 1
-	fi
+  # Update user's MN info no NodeCheck
+  sleep $[ ( $RANDOM % 600 ) ]
+  RESULTS=`curl -s -d @$OUTPUT -H "Content-Type: application/json" https://nodecheck.io/api/sendinfo`
+  # Check if successful or not and display error
+  if [[ $RESULTS == *"\"success\":true"* ]]
+  then
+    # All working OK
+    exit 0
+  else
+    # There seems to be a problem!
+    echo "Error: $RESULTS"
+    exit 1
+  fi
 else
-	# Check if we used --test parameter
-	if [ $RUNMODE == "--test" ]
-	then
-		# Display test results to verify script configuration
-		echo "Test to verify if script is working."
-		echo ""
-		echo "Information being submitted:"
-		echo ""
-		echo "MN/Wallet Version=$VERSION"
-		echo "Blockheight=$BLOCKS"
-		echo "Blockhash=$BLOCKHASH"
-        	RESULTS=`curl -s -d @$OUTPUT -H "Content-Type: application/json" https://nodecheck.io/api/sendinfo`
-	        # Check if successful or not and display error
-	        if [[ $RESULTS == *"\"success\":true"* ]]
-	        then
-	                # All working OK
-			echo "API Connection OK."
-	                exit 0
-	        else
-	                # There seems to be a problem!
-			echo "Problem with API connection."
-	                echo "Error: $RESULTS"
-	                exit 1
-	        fi		
-		echo ""
-	else
-		# Wrong parameter provided, display help information
-		echo "Incorrect parameter provided to script."
-		echo ""
-		echo "Usage: checkinfo.sh [--test]"
-		echo ""
-		exit 1
-	fi
+  # Check if we used --test parameter
+  if [ $RUNMODE == "--test" ]
+  then
+    # Display test results to verify script configuration
+    echo "Test to verify if script is working."
+    echo ""
+    echo "Information being submitted:"
+    echo ""
+    echo "MN/Wallet Version=$VERSION"
+    echo "Blockheight=$BLOCKS"
+    echo "Blockhash=$BLOCKHASH"
+    RESULTS=`curl -s -d @$OUTPUT -H "Content-Type: application/json" https://nodecheck.io/api/sendinfo`
+    # Check if successful or not and display error
+    if [[ $RESULTS == *"\"success\":true"* ]]
+    then
+      # All working OK
+      echo "API Connection OK."
+      exit 0
+    else
+      # There seems to be a problem!
+      echo "Problem with API connection."
+      echo "Error: $RESULTS"
+      exit 1
+    fi
+  else
+    # Wrong parameter provided, display help information
+    echo "Incorrect parameter provided to script."
+    echo ""
+    echo "Usage: checkinfo.sh [--test]"
+    echo ""
+    exit 1
+  fi
 fi
