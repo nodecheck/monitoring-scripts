@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 ##################################
-# Copyright: 2018 - Nodecheck.io #
+# Copyright: 2019 - Nodecheck.io #
 # Version: 1.1                   #
 ##################################
 
