@@ -66,16 +66,12 @@ if len(argv) > 1:
 if clitool.endswith(clisuffix):
     # We are using coin-cli command
     getnetworkinfo = check_output([clitool, "getnetworkinfo"])
-    getnetworkinfo = getnetworkinfo.decode("utf-8")
-    getnetworkinfo = getnetworkinfo.rstrip()
     jsongetnetworkinfo = json.loads(getnetworkinfo)
     version = jsongetnetworkinfo.get('subversion')
     version = version.replace("/", "")
 else:
     # We are using coindaemond command
     getinfo = check_output([clitool, "getinfo"])
-    getinfo = getinfo.decode("utf-8")
-    getinfo = getinfo.rstrip()
     jsongetinfo = json.loads(getinfo)
     version = jsongetinfo.get('version')
     version = version.replace("/", "")
