@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 #
-##################################
-# NodeCheck checkinfo script     #
-# Copyright: 2019 - NodeCheck.io #
-# Version: 1.0                   #
-##################################
+# NodeCheck checkinfo script
 
 # Import the stuff we need to use
 from sys import argv
@@ -49,8 +45,6 @@ prog_name = argv[0]
 parms = ""
 clisuffix = "cli"
 waittime = randint(1, 600)
-getinfo = None
-getnetworkinfo = None
 blocks = None
 blockhash = None
 success = None
@@ -62,26 +56,35 @@ results = None
 if len(argv) > 1:
     parms = argv[1]
 
+# Define functions to use
+def getinfo(jsondata, item):
+    getjsondata = check_output([clitool, jsondata])
+    extractjsondata = json.loads(getjsondata)
+    getjsonkey = extractjsondata.get(item)
+    return getjsonkey
+
+def getblockinfo(item, bhash=None):
+    if bhash is None:
+        getdata = check_output([clitool, item])
+    else:
+        getdata = check_output([clitool, item, bhash])
+    decodedata = getdata.decode("utf-8")
+    stripdata = decodedata.rstrip()
+    return stripdata
+
 # Collect the information we need: version, blocks, blockhash
 if clitool.endswith(clisuffix):
     # We are using coin-cli command
-    getnetworkinfo = check_output([clitool, "getnetworkinfo"])
-    jsongetnetworkinfo = json.loads(getnetworkinfo)
-    version = jsongetnetworkinfo.get('subversion')
-    version = version.replace("/", "")
+    version = getinfo("getnetworkinfo", "subversion")
 else:
     # We are using coindaemond command
-    getinfo = check_output([clitool, "getinfo"])
-    jsongetinfo = json.loads(getinfo)
-    version = jsongetinfo.get('version')
+    version = getinfo("getinfo", "version")
+
+if "/" in version:
     version = version.replace("/", "")
 
-blocks = check_output([clitool, "getblockcount"])
-blocks = blocks.decode("utf-8")
-blocks = blocks.rstrip()
-blockhash = check_output([clitool, "getblockhash", blocks])
-blockhash = blockhash.decode("utf-8")
-blockhash = blockhash.rstrip()
+blocks = getblockinfo("getblockcount")
+blockhash = getblockinfo("getblockhash", blocks)
 
 if parms == "--test":
     print("Test to verify if script is working.\n")
@@ -97,7 +100,7 @@ if parms == "--test":
         print("API Connection: OK " + str(results))
     else:
         print("Problem with API connection.")
-        print("Error:      FAILED " + str(results))
+        print("Error: FAILED " + str(results))
 elif parms == "":
     # Send data to User's NodeCheck profile so that notifications can be sent
     # when a new wallet update is available and also to compare blocks and
