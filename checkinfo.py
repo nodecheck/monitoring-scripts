@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 #
-# NodeCheck checkinfo script
+##################################
+# NodeCheck checkinfo script     #
+# Copyright: 2019 - NodeCheck.io #
+# Version: 1.0                   #
+##################################
 
 # Import the stuff we need to use
 from sys import argv
