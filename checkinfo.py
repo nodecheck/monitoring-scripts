@@ -48,8 +48,6 @@ waittime = randint(1, 600)
 blocks = None
 blockhash = None
 success = None
-headers = {'Content-type': 'application/json', 'User-Agent': 'NodeCheck API Script'}
-url = "https://nodecheck.io/api/sendinfo"
 results = None
 
 # Check if we passed a parameter, and set it accordingly
@@ -72,6 +70,14 @@ def getblockinfo(item, bhash=None):
     stripdata = decodedata.rstrip()
     return stripdata
 
+def senddata():
+    headers = {'Content-type': 'application/json', 'User-Agent': 'NodeCheck API Script'}
+    url = "https://nodecheck.io/api/sendinfo"
+    data = {'access-token': apikey, 'payee': payee, 'txid': txid, 'version': version, 'blocks': blocks, 'blockhash': blockhash}
+    returndata = requests.post(url, data=json.dumps(data), headers=headers)
+    parsed = json.loads(returndata.text)
+    return parsed
+
 # Collect the information we need: version, blocks, blockhash
 if clitool.endswith(clisuffix):
     # We are using coin-cli command
@@ -92,10 +98,8 @@ if parms == "--test":
     print("MN/Wallet version: " + version)
     print("Blockheight:       " + blocks)
     print("Blockhash:         " + blockhash + "\n")
-    data = {'access-token': apikey, 'payee': payee, 'txid': txid, 'version': version, 'blocks': blocks, 'blockhash': blockhash}
-    results = requests.post(url, data=json.dumps(data), headers=headers)
-    parsed = json.loads(results.text)
-    success = parsed.get('success')
+    results = senddata()
+    success = results.get('success')
     if success:
         print("API Connection: OK " + str(results))
     else:
@@ -106,8 +110,7 @@ elif parms == "":
     # when a new wallet update is available and also to compare blocks and
     # blockhash
     time.sleep(waittime)
-    data = {'access-token': apikey, 'payee': payee, 'txid': txid, 'version': version, 'blocks': blocks, 'blockhash': blockhash}
-    results = requests.post(url, data=json.dumps(data), headers=headers)
+    results = senddata()
 else:
     print("Invalid parameter!")
     print("Valid parameters: --test or run script without any parameters!")
