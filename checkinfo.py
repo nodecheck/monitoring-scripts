@@ -105,8 +105,6 @@ elif parms == "":
     time.sleep(waittime)
     data = {'access-token': apikey, 'payee': payee, 'txid': txid, 'version': version, 'blocks': blocks, 'blockhash': blockhash}
     results = requests.post(url, data=json.dumps(data), headers=headers)
-    parsed = json.loads(results.text)
-    print(json.dumps(parsed, indent=2))
 else:
     print("Invalid parameter!")
     print("Valid parameters: --test or run script without any parameters!")
