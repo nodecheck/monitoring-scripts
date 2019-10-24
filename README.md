@@ -32,35 +32,64 @@ The information is submitted and stored against the node you have registered in 
 
 ### Installation
 
-Please make sure you have curl installed on your system as this is a requirement for the script to work:
+There are two variants available.  There is a bash script as well as a python script.  You can choose whichever one you prefer, although the python script will require some additional packages to be installed:
+
+```
+apt install python3-requests python3-simplejson
+```
+
+Please make sure you also have curl installed on your system as this is a requirement for the script to work:
 
 ```
 apt install curl
 ```
 
-Download our script:
+Download our bash or python script using one of the below commands:
 
 ```
 curl -O https://raw.githubusercontent.com/nodecheck/monitoring-scripts/master/checkinfo.sh
 ```
 
+```
+curl -O https://raw.githubusercontent.com/nodecheck/monitoring-scripts/master/checkinfo.py
+```
+
 As root user, move the file to /usr/local/bin and set the permissions so that it can be executed (this is so that the script can be found and ran without providing the full path to the script):
+
+For the bash script:
 
 ```
 mv checkinfo.sh /usr/local/bin/
 chmod +x /usr/local/bin/checkinfo.sh
 ```
 
+For the python script:
+
+```
+mv checkinfo.py /usr/local/bin/
+chmod +x /usr/local/bin/checkinfo.py
+```
+
 Generate your API key by going to https://nodecheck.io and click My Profile --> Preferences.  Part way down is "API access token".  Click the button below to generate an API key.  Each click will generate a new key, so if you think your key has been compromised, it's possible to generate a new one, and copy the key and paste into the monitoring script.
 
 Edit and provide the following information for the script to run - edit the appropriate values within the script:
 
+For the bash script, change the following fields at the beginning of the script:
+
 ```
-CLITOOL=
-APIKEY=
-TXID=
-PAYEE=
-OUTPUT=/tmp/checkinfo.json
+CLITOOL=/path/to/coin-cli|coindaemond
+APIKEY=your-api-key-here
+TXID=your-mn-txid-here
+PAYEE=your-mn-payee-here
+```
+
+For the python script, change the following fields at the beginning of the script:
+
+```
+clitool = "/path/to/coin-cli|coindaemond"
+apikey = "your-api-key-here"
+payee = "your-mn-payee-here"
+txid = "your-mn-txid-here"
 ```
 
 The CLITOOL needs to be the path to the CLI RPC program on your node.  This could be, for example ```coinname-cli```, and therefore will need to contain the full path to wherever you have this located on your VPS.  Some coins don't have a separate CLI program, so in this instance you will substitute the command with the ```coindaemond``` name.
